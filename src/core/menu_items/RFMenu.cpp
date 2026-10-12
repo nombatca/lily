@@ -14,28 +14,15 @@
 
 void RFMenu::optionsMenu() {
     options = {
-        {"Quét / Chép",     [=]() { RFScan(); }       },
-#if !defined(LITE_VERSION)
-        {"Ghi thô (RAW)",   rf_raw_record             }, // Pablo-Ortiz-Lopez
-        {"Phát tùy chỉnh",  sendCustomRF              },
-#endif
-        {"Phổ tần",         rf_spectrum               },
-#if !defined(LITE_VERSION)
-        {"Phổ RSSI",        rf_CC1101_rssi            }, // @Pirata
-        {"Phổ sóng vuông",  rf_SquareWave             }, // @Pirata
-        {"Thác nước",       rf_waterfall              }, // dev_eclipse
-#if defined(BUZZ_PIN) or defined(HAS_NS4168_SPKR) and defined(RF_LISTEN_H)
-        {"Nghe",            rf_listen                 }, // dev_eclipse
-#endif
-        // Da go "Bruteforce" va "Jammer" theo pham vi du an (chi phan tich / phat lai cua minh).
-        // Module van con trong src/modules/rf, chi khong hien trong menu.
-#endif
-        {"Cài đặt",         [this]() { configMenu(); }},
+        // Rut gon: chi giu luong Quet -> Luu dang song -> Phat lai.
+        {"Quét & Lưu",     [=]() { RFScan(); }       },  // quet, giai ma, luu (ca RAW), phat lai ngay
+        {"Phát lại file",  sendCustomRF              },  // mo file .sub da luu va phat lai
+        {"Cài đặt",        [this]() { configMenu(); }},
     };
     addOptionToMainMenu();
 
     delay(200);
-    String txt = "Sóng vô tuyến";  // thu font: neu hien ? hoac o vuong -> font khong co dau TV
+    String txt = "Sóng vô tuyến";
     if (bruceConfigPins.rfModule == CC1101_SPI_MODULE) txt += " (CC1101)"; // Indicates if CC1101 is connected
     else txt += " Tx: " + String(bruceConfigPins.rfTx) + " Rx: " + String(bruceConfigPins.rfRx);
 
