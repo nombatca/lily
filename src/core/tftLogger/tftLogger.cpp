@@ -2,6 +2,10 @@
 #include <esp32-hal-psram.h>
 #include <globals.h>
 #include <tftLogger.h>
+#if defined(HAS_SCREEN)
+#include "assets/fonts/bevietnam16.h"
+#include "assets/fonts/bevietnam24.h"
+#endif
 
 /*
 AUXILIARY FUNCTIONS TO CREATE THE JSONS
@@ -473,6 +477,24 @@ void tft_logger::log_drawString(String s, tftFuncs fn, int32_t x, int32_t y) {
     pushLogIfUnique(l);
     logging = false;
 }
+
+#if defined(HAS_SCREEN)
+// Co chu 2 (menu / nhan) dung Be Vietnam Pro 16px; co 3 (tieu de) dung 24px; co 1 (so / hex nho) giu font goc.
+// Van goi setTextSize goc de bien textsize phuc vu tinh layout cua Bruce dung nhu cu.
+void tft_logger::setTextSize(uint8_t s) {
+    BRUCE_TFT_DRIVER::setTextSize(s);
+    uint8_t want = (s == 2) ? 16 : (s >= 3 ? 24 : 0);
+    if (want == _vnFontLoaded) return;
+    if (want == 0) {
+        if (_vnFontLoaded) BRUCE_TFT_DRIVER::unloadFont();
+    } else if (want == 16) {
+        BRUCE_TFT_DRIVER::loadFont(bevietnam16);
+    } else {
+        BRUCE_TFT_DRIVER::loadFont(bevietnam24);
+    }
+    _vnFontLoaded = want;
+}
+#endif
 
 int16_t tft_logger::drawString(const String &string, int32_t x, int32_t y, uint8_t font) {
     log_drawString(string, DRAWSTRING, x, y);

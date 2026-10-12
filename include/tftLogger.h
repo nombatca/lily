@@ -59,6 +59,7 @@ private:
     bool isSleeping = false;
     bool logging = false;
     bool _logging = false;
+    uint8_t _vnFontLoaded = 0;  // 0 = font goc, 16 / 24 = co Be Vietnam Pro dang nap
     void clearLog();
     bool async_serial = false;
     TaskHandle_t asyncSerialTask = NULL;
@@ -127,6 +128,10 @@ public:
     void drawFastVLine(int32_t x, int32_t y, int32_t h, int32_t fg);
     void drawFastHLine(int32_t x, int32_t y, int32_t w, int32_t fg);
     void log_drawString(String s, tftFuncs fn, int32_t x, int32_t y);
+#if defined(HAS_SCREEN)
+    // Nap Be Vietnam Pro (smooth font) theo co chu: 2 -> 16px, 3 -> 24px, con lai giu font goc.
+    void setTextSize(uint8_t s);
+#endif
     int16_t drawString(const String &string, int32_t x, int32_t y, uint8_t font = 1);
     int16_t drawCentreString(const String &string, int32_t x, int32_t y, uint8_t font = 1);
     int16_t drawRightString(const String &string, int32_t x, int32_t y, uint8_t font = 1);
