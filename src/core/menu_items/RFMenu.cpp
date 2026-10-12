@@ -14,23 +14,23 @@
 
 void RFMenu::optionsMenu() {
     options = {
-        {"Scan/copy",       [=]() { RFScan(); }       },
+        {"Quét / Chép",     [=]() { RFScan(); }       },
 #if !defined(LITE_VERSION)
-        {"Record RAW",      rf_raw_record             }, // Pablo-Ortiz-Lopez
-        {"Custom SubGhz",   sendCustomRF              },
+        {"Ghi thô (RAW)",   rf_raw_record             }, // Pablo-Ortiz-Lopez
+        {"Phát tùy chỉnh",  sendCustomRF              },
 #endif
-        {"Spectrum",        rf_spectrum               },
+        {"Phổ tần",         rf_spectrum               },
 #if !defined(LITE_VERSION)
-        {"RSSI Spectrum",   rf_CC1101_rssi            }, // @Pirata
-        {"SquareWave Spec", rf_SquareWave             }, // @Pirata
-        {"Spectogram",      rf_waterfall              }, // dev_eclipse
+        {"Phổ RSSI",        rf_CC1101_rssi            }, // @Pirata
+        {"Phổ sóng vuông",  rf_SquareWave             }, // @Pirata
+        {"Thác nước",       rf_waterfall              }, // dev_eclipse
 #if defined(BUZZ_PIN) or defined(HAS_NS4168_SPKR) and defined(RF_LISTEN_H)
-        {"Listen",          rf_listen                 }, // dev_eclipse
+        {"Nghe",            rf_listen                 }, // dev_eclipse
 #endif
         // Da go "Bruteforce" va "Jammer" theo pham vi du an (chi phan tich / phat lai cua minh).
         // Module van con trong src/modules/rf, chi khong hien trong menu.
 #endif
-        {"Config",          [this]() { configMenu(); }},
+        {"Cài đặt",         [this]() { configMenu(); }},
     };
     addOptionToMainMenu();
 
@@ -44,14 +44,14 @@ void RFMenu::optionsMenu() {
 
 void RFMenu::configMenu() {
     options = {
-        {"RF TX Pin", lambdaHelper(gsetRfTxPin, true)},
-        {"RF RX Pin", lambdaHelper(gsetRfRxPin, true)},
-        {"RF Module", setRFModuleMenu},
-        {"RF Frequency", setRFFreqMenu},
-        {"Back", [this]() { optionsMenu(); }},
+        {"Chân TX", lambdaHelper(gsetRfTxPin, true)},
+        {"Chân RX", lambdaHelper(gsetRfRxPin, true)},
+        {"Mô-đun RF", setRFModuleMenu},
+        {"Tần số", setRFFreqMenu},
+        {"Quay lại", [this]() { optionsMenu(); }},
     };
 
-    loopOptions(options, MENU_TYPE_SUBMENU, "RF Config");
+    loopOptions(options, MENU_TYPE_SUBMENU, "Cài đặt RF");
 }
 
 void RFMenu::drawIcon(float scale) {
