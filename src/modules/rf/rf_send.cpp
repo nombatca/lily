@@ -28,10 +28,11 @@ void sendCustomRF() {
     returnToMenu = true; // make sure menu is redrawn when quitting in any point
 
     options = {
-        {"Recent",   [&]() { selected_code = selectRecentRfMenu(); }},
-        {"LittleFS", [&]() { filesystem = &LittleFS; }              },
+        {"Recent", [&]() { selected_code = selectRecentRfMenu(); }},
     };
-    if (setupSdCard()) options.insert(options.begin(), {"SD Card", [&]() { filesystem = &SD; }});
+    // Chi hien o luu that su mount duoc, tranh crash khi vao duyet file ma khong co o nao.
+    if (setupSdCard()) options.push_back({"SD Card", [&]() { filesystem = &SD; }});
+    if (setupLittleFS()) options.push_back({"LittleFS", [&]() { filesystem = &LittleFS; }});
 
     loopOptions(options);
 
