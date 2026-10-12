@@ -32,7 +32,9 @@ std::vector<FileList> fileList;
 ***************************************************************************************/
 bool setupLittleFS(uint8_t maxFiles) {
     if (maxFiles < 1) { maxFiles = 1; }
-    return LittleFS.begin(false, "/littlefs", maxFiles);
+    if (LittleFS.begin(false, "/littlefs", maxFiles)) return true;
+    // Mount that bai (lan dau, hoac vung LittleFS chua format): format roi thu lai.
+    return LittleFS.begin(true, "/littlefs", maxFiles);
 }
 
 /***************************************************************************************
