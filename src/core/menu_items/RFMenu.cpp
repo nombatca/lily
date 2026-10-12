@@ -27,15 +27,15 @@ void RFMenu::optionsMenu() {
 #if defined(BUZZ_PIN) or defined(HAS_NS4168_SPKR) and defined(RF_LISTEN_H)
         {"Listen",          rf_listen                 }, // dev_eclipse
 #endif
-        {"Bruteforce",      rf_bruteforce             }, // dev_eclipse
-        {"Jammer",          [=]() { RFJammer(true); } },
+        // Da go "Bruteforce" va "Jammer" theo pham vi du an (chi phan tich / phat lai cua minh).
+        // Module van con trong src/modules/rf, chi khong hien trong menu.
 #endif
         {"Config",          [this]() { configMenu(); }},
     };
     addOptionToMainMenu();
 
     delay(200);
-    String txt = "Radio Frequency";
+    String txt = "Sóng vô tuyến";  // thu font: neu hien ? hoac o vuong -> font khong co dau TV
     if (bruceConfigPins.rfModule == CC1101_SPI_MODULE) txt += " (CC1101)"; // Indicates if CC1101 is connected
     else txt += " Tx: " + String(bruceConfigPins.rfTx) + " Rx: " + String(bruceConfigPins.rfRx);
 
